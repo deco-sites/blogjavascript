@@ -72,29 +72,20 @@ export default function BlogPost({ page }: Props) {
   });
 
   return (
-    <div className="w-full flex flex-col gap-20 container mx-auto px-4 md:px-0 py-12 lg:py-28">
-      <div className="w-full flex flex-col gap-12 max-w-3xl lg:mx-auto">
-        <h1 className="text-5xl font-bold">{title}</h1>
+    <div className="w-full flex flex-col gap-10 container mx-auto px-4 md:px-0 py-12">
+      <div className="w-full flex flex-col gap-5 max-w-3xl lg:mx-auto">
+        <h1 className="text-5xl font-bold" id="blog-post-title">{title}</h1>
         <div className="flex items-center gap-4">
-          <Image
-            className="object-cover w-14 h-14 rounded-full"
-            alt={authors[0]?.name}
-            src={authors[0]?.avatar || DEFAULT_AVATAR}
-            width={56}
-            height={56}
-          />
           <div className="flex flex-col">
-            <p className="font-semibold text-base">
-              {authors.map((author) => author.name).join(", ")}
-            </p>
             <p className="text-base">{formattedDate}</p>
           </div>
         </div>
       </div>
       <Image
-        className="w-full object-cover aspect-video max-h-[600px] rounded-2xl"
+        className="w-full object-cover aspect-video max-h-[600px] rounded-2xl max-w-3xl lg:mx-auto"
         width={600}
         src={image || ""}
+        id="blog-post-image"
       />
       <div
         class={CONTENT_STYLES}
@@ -119,27 +110,6 @@ export default function BlogPost({ page }: Props) {
                 Tag #3
               </p>
             </div>
-          </div>
-        </div>
-        {/* divider zinc-300 */}
-        <div class="w-full h-px bg-zinc-300"></div>
-        <div className="flex items-center gap-4">
-          <Image
-            className="object-cover w-14 h-14 rounded-full"
-            alt={authors[0]?.name}
-            src={authors[0]?.avatar || ""}
-            width={56}
-            height={56}
-          />
-          <div className="flex flex-col">
-            <p className="font-semibold text-base">
-              {authors[0].name}
-            </p>
-            <p className="text-base">
-              {`${authors[0].jobTitle ?? "Job Title"}, ${
-                authors[0].company || "Company"
-              }`}
-            </p>
           </div>
         </div>
       </div>

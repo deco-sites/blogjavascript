@@ -1,6 +1,8 @@
 import type { ImageWidget } from "apps/admin/widgets.ts";
 import Image from "apps/website/components/Image.tsx";
 import { BlogPost } from "apps/blog/types.ts";
+import { AppContext } from "site/apps/site.ts";
+import { SectionProps } from "deco/mod.ts";
 
 export interface CTA {
   id?: string;
@@ -22,30 +24,18 @@ export interface Post {
 }
 
 export interface Props {
-  post?: BlogPost | null;
+  post?: BlogPost;
 }
 
-const DEFAULT_IMAGE =
-  "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/4763/682eb374-def2-4e85-a45d-b3a7ff8a31a9";
-
 export default function MainPost({
-  post = {
-    slug: "/",
-    title: "Title of blogpost #1",
-    authors: [{ name: "Name of the author", email: "author@deco.cx" }],
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
-    image: DEFAULT_IMAGE,
-    date: "01 Apr 2024",
-    categories: [{ name: "Tag#1", slug: "tag-1" }],
-    content: "Blog Post Content",
-  },
-}: Props) {
+  post,
+}: SectionProps<typeof loader>) {
+  if(!post) return <></>;
   return (
     <div class="container lg:mx-auto lg:py-14 mx-2 py-12 text-sm">
       <div class="space-y-16">
         <a
-          href={`/blog/${post?.slug}`}
+          href={`/post/${post?.slug}`}
           class="border border-secondary gap-8 grid grid-cols-1 items-center md:grid-cols-2 overflow-hidden rounded-lg"
         >
           {post?.image && (
@@ -58,11 +48,12 @@ export default function MainPost({
               alt={post?.image}
               decoding="async"
               loading="lazy"
+              id={post.slug.replaceAll(".", "")}
             />
           )}
           <div class="p-6 space-y-4">
             <div class="space-y-2">
-              <h3 class="text-2xl">{post?.title}</h3>
+              <h3 class="text-2xl" id={`title-${post.slug.replaceAll(".", "")}`}>{post?.title}</h3>
               <p class="text-base">{post?.excerpt}</p>
             </div>
             <div class="flex flex-wrap gap-2">
@@ -90,4 +81,14 @@ export default function MainPost({
       </div>
     </div>
   );
+}
+
+export const loader = async (_: unknown, req: Request, ctx: AppContext) : Promise<Props> => {
+  const posts = await ctx.invoke.blog.loaders.BlogpostList({
+    count: 2,
+  })
+  console.log("posts", posts)
+  return {
+    post: posts?.[0]
+  }
 }

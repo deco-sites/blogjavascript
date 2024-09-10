@@ -81,7 +81,7 @@ export default function BlogPosts({
         <div class="gap-8 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2">
           {posts?.slice(from, to).map((post) => (
             <a
-              href={`/blog/${post.slug}`}
+              href={`/post/${post.slug}`}
               class="border border-secondary overflow-hidden rounded-lg"
             >
               <Image
@@ -93,14 +93,12 @@ export default function BlogPosts({
                 alt={post.image}
                 decoding="async"
                 loading="lazy"
+                id={post.slug.replaceAll(".", "")}
               />
               <div class="p-6 space-y-4">
-                <div class="font-semibold">
-                  {calculateReadingTime(post.content.split(" ").length)}
-                </div>
                 <div class="space-y-2">
-                  <h3 class="text-2xl">{post.title}</h3>
-                  <p class="text-base">{post.excerpt}</p>
+                  <h3 class="text-2xl text-[16px] leading-[24px] font-bold" id={`title-${post.slug.replaceAll(".", "")}`}>{post.title}</h3>
+                  <p class="text-[12px]">{post.excerpt}</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
                   {post.categories?.map((category) => (

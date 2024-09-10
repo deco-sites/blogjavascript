@@ -13,12 +13,6 @@ export const Layout = (
       {/* Include Icons and manifest */}
       {/** @ts-ignore: ignore error */}
       <Head>
-        {/* Enable View Transitions API */}
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `@view-transition { navigation: auto; }`,
-          }}
-        />
 
         {/* Tailwind v3 CSS file */}
         <link
@@ -29,6 +23,8 @@ export const Layout = (
         {/* Web Manifest */}
         <link rel="manifest" href={asset("/site.webmanifest")} />
       </Head>
+
+      <script src={`/viewTransitions.js`}></script>
 
       {/* Rest of Preact tree */}
       {children}
